@@ -53,33 +53,36 @@ export default function BottomAppBar() {
   };
 
   return (
-    <AppBar position="absolute" color="primary" className={classes.appBar}>
-      <Toolbar>
-        <IconButton edge="start" color="inherit" aria-label="open drawer">
-          <MenuIcon />
-        </IconButton>
-        <SpeedDial
-          color="secondary"
-          ariaLabel="add"
-          icon={<SpeedDialIcon />}
-          onClose={handleClose}
-          onOpen={handleOpen}
-          open={open}
-          className={classes.speedDial}>
-          {actions.map(action => (
-            <SpeedDialAction
-              key={action.name}
-              icon={action.icon}
-              tooltipTitle={action.name}
-              onClick={handleClose}
-            />
-          ))}
-        </SpeedDial>
-        <div className={classes.grow} />
-        <IconButton edge="end" color="inherit">
-          <MoreIcon />
-        </IconButton>
-      </Toolbar>
-    </AppBar>
+    <React.Fragment>
+      <CssBaseline />
+      <AppBar position="sticky" color="primary" className={classes.appBar}>
+        <Toolbar>
+          <IconButton edge="start" color="inherit" aria-label="open drawer">
+            <MenuIcon />
+          </IconButton>
+          <SpeedDial
+            FabProps={{color: 'secondary', size: 'large'}}
+            ariaLabel="add"
+            icon={<SpeedDialIcon />}
+            onClose={handleClose}
+            onOpen={handleOpen}
+            open={open}
+            className={classes.speedDial}>
+            {actions.map(action => (
+              <SpeedDialAction
+                key={action.name}
+                icon={action.icon}
+                tooltipTitle={action.name}
+                onClick={handleClose}
+              />
+            ))}
+          </SpeedDial>
+          <div className={classes.grow} />
+          <IconButton edge="end" color="inherit">
+            <MoreIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+    </React.Fragment>
   );
 }

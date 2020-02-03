@@ -57,7 +57,6 @@ function AudioField({sources}) {
     };
     //Listener.setPosition(delta);
     for (var em in emitters) {
-      console.log(em);
       updateEmitterPosition(em, emitters[em].position);
     }
   }, [recvPosition]);
@@ -78,7 +77,6 @@ function AudioField({sources}) {
         ((recvPosition.y - position.y) / containerRef.current.clientHeight) *
         SCALE,
     };
-	  console.log(emitters);
     if (emitters[name] !== null) {
       emitters[name].position = position;
       emitters[name].panner3D.setPosition(delta.x, delta.y, 0);

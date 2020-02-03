@@ -20,9 +20,15 @@ const useStyle = makeStyles({
   },
 });
 
-function SoundReceiver({callback = console.log}) {
+function SoundReceiver({
+  callback = console.log,
+  defaultPos = {x: 512, y: 512},
+}) {
   const classes = useStyle();
-  const [position, setPosition] = React.useState({x: 0, y: 0});
+  const [position, setPosition] = React.useState({
+    x: defaultPos.x,
+    y: defaultPos.y,
+  });
   const [parentSize, setParentSize] = React.useState({width: 0, height: 0});
   function onControlledDrag(e, data) {
     const {x, y, node} = data;
@@ -34,7 +40,7 @@ function SoundReceiver({callback = console.log}) {
   return (
     <Draggable
       bounds="parent"
-      grid={[50, 50]}
+      grid={[10, 10]}
       position={position}
       onStop={onControlledDrag}>
       <div style={{display: 'inline-block'}}>

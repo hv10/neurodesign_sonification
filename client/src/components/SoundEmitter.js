@@ -5,27 +5,48 @@ import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import Draggable from 'react-draggable';
-import {AMSynth, Panner3D, Master as MasterOut} from 'tone';
+import {
+  PolySynth,
+  AMSynth,
+  Panner3D,
+  Compressor,
+  Part,
+  Master as MasterOut,
+} from 'tone';
+import {connect} from 'react-redux';
+import emitterIdentity from '../actions/emitterIdentityFilter';
 
 function setUpSynthDevice(cb) {
-  let synth = new AMSynth();
-  let panner3D = new Panner3D();
+  const synth = new AMSynth();
+  const panner3D = new Panner3D();
+  synth.sync();
   panner3D.panningModel = 'HRTF';
-  panner3D.rolloffFactor = 2;
-  panner3D.refDistance = 1;
   synth.chain(panner3D, MasterOut);
+  cb(true);
   return [synth, panner3D];
 }
 
-function SoundEmitter({onPositionChange, callback = console.log}) {
-  const [position, setPosition] = React.useState({x: 0, y: 0});
-  const [synth, setSynth] = React.useState(null);
-  const [panner3D, setPanner3D] = React.useState(null);
+function SoundEmitter({
+  name,
+  onPositionChange,
+  callback = console.log,
+  enabled,
+  synth,
+  panner3D,
+  position,
+  events,
+  dispatch,
+}) {
   const [isLoaded, setIsLoaded] = React.useState(false);
+  const [emitterEvents, setEmitterEvents] = React.useState([]);
   React.useEffect(() => {
-    const [synth_d, panner3D_d] = setUpSynthDevice();
-    setSynth(synth_d);
-    setPanner3D(panner3D_d);
+    const [synth_d, panner3D_d] = setUpSynthDevice(setIsLoaded);
+    dispatch({
+      type: 'UPDATE_EMITTER_AUDIO_NODES',
+      name: name,
+      synth: synth_d,
+      panner: panner3D_d,
+    });
   }, []);
   React.useEffect(() => {
     if (isLoaded) {
@@ -37,24 +58,51 @@ function SoundEmitter({onPositionChange, callback = console.log}) {
       onPositionChange(position);
     }
   }, [position]);
+  React.useEffect(() => {
+    if (isLoaded) {
+      synth.triggerRelease();
+      const em = new Part(
+        function(time, value) {
+          synth.triggerAttackRelease(value, 0.1, time);
+        },
+        events.map((el, i) => {
+          return [i / 5, el.value];
+        }),
+      );
+      em.start(0);
+    }
+  }, [events]);
 
   function onControlledDrag(e, data) {
     const {x, y, node} = data;
-    setPosition({x, y});
-    synth.triggerAttackRelease('C2', 0.5);
+    dispatch({type: 'UPDATE_EMITTER_POS', name: name, position: {x, y}});
   }
-
-  return (
-    <Draggable
-      bounds="parent"
-      grid={[50, 50]}
-      position={position}
-      onStop={onControlledDrag}>
-      <Fab color="secondary">
-        <VolumeUpIcon />
-      </Fab>
-    </Draggable>
-  );
+  if (enabled) {
+    return (
+      <Draggable
+        bounds="parent"
+        grid={[10, 10]}
+        position={position}
+        onStop={onControlledDrag}>
+        <Fab color="secondary" disabled={!isLoaded}>
+          <VolumeUpIcon />
+        </Fab>
+      </Draggable>
+    );
+  } else {
+    return <div />;
+  }
 }
+const mapStateToProps = (state, ownProps) => {
+  return {
+    enabled: emitterIdentity(state.emitters, ownProps.name).enabled,
+    synth: emitterIdentity(state.emitters, ownProps.name).synth,
+    panner3D: emitterIdentity(state.emitters, ownProps.name).panner,
+    position: emitterIdentity(state.emitters, ownProps.name).position,
+    events: state.transport.events.filter(
+      (v, i, a) => v.name === ownProps.name,
+    ),
+  };
+};
 
-export default SoundEmitter;
+export default connect(mapStateToProps)(SoundEmitter);
