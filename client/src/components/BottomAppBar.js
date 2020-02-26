@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 
 const actions = [{icon: <FileCopyIcon />, name: 'Add DataSource'}];
 
-export default function BottomAppBar() {
+export default function BottomAppBar({fDialog = () => {}}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -73,7 +73,10 @@ export default function BottomAppBar() {
                 key={action.name}
                 icon={action.icon}
                 tooltipTitle={action.name}
-                onClick={handleClose}
+                onClick={() => {
+                  handleClose();
+                  fDialog(true);
+                }}
               />
             ))}
           </SpeedDial>

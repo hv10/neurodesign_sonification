@@ -12,11 +12,16 @@ import Fab from '@material-ui/core/Fab';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
 import PauseIcon from '@material-ui/icons/Pause';
+import CSVReader from 'react-csv-reader';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 
 import BottomAppBar from './components/BottomAppBar';
 import AudioField from './components/AudioField';
 import ChannelControl from './components/ChannelControl';
-import {Transport} from 'tone';
+import TransportControls from './components/TransportControls';
 
 const useStyles = makeStyles(theme => ({
   container_max: {width: '100%', height: '100%'},
@@ -25,29 +30,35 @@ const useStyles = makeStyles(theme => ({
   transportControls: {position: 'absolute', bottom: 25, left: 100},
   controlFab: {position: 'relative', margin: '0 5px'},
 }));
-const data = [...Array(250)].map((el, i) => {
-  return {x: i, y: (128 * (i / 2)) % 1024};
-});
 
 function App() {
   const classes = useStyles();
   const containerRef = React.useRef();
-  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [data, setData] = React.useState(null);
+  const [fDOpen, setFDOpen] = React.useState(false);
   React.useEffect(() => {
-    Transport.loop = true;
-  }, []);
-  function togglePlaying() {
-    if (isPlaying) {
-      Transport.pause();
-    } else {
-      Transport.start();
-    }
-    setIsPlaying(!isPlaying);
+    console.log('>>>DATA', data);
+  }, [data]);
+  function handleFDClose() {
+    setFDOpen(false);
   }
-  function handleStop() {
-    Transport.stop();
-    Transport.seconds = 0;
-    setIsPlaying(false);
+  function handleFileLoaded(data) {
+    console.log('>>>LOAD', data);
+    var res = [];
+    for (var i = 0; i < data[0].length; i++) {
+      var tmp = data.map(el => {
+        return el[i];
+      });
+      tmp = tmp.filter((v, i, a) => !isNaN(v));
+      const min = Math.min(...tmp);
+      const max = Math.max(...tmp);
+      const scaled = tmp.map((el, i) => {
+        return {x: i, y: (el - min) / (max - min)};
+      });
+      res[i] = scaled;
+    }
+    setData(res);
+    handleFDClose();
   }
   return (
     <div style={{width: '100vw', height: '100vh'}}>
@@ -59,22 +70,7 @@ function App() {
           md={8}
           className={classes.max_height}>
           <AudioField sources={[]} ref={containerRef} />
-          <span className={classes.transportControls}>
-            <Fab
-              color="primary"
-              size="large"
-              className={classes.controlFab}
-              onClick={togglePlaying}>
-              {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-            </Fab>
-            <Fab
-              color="primary"
-              size="large"
-              className={classes.controlFab}
-              onClick={handleStop}>
-              <StopIcon />
-            </Fab>
-          </span>
+          <TransportControls />
         </Grid>
         <div style={{height: '5vh', width: 0}} />
         <Grid
@@ -85,10 +81,29 @@ function App() {
           md={4}
           className={classes.max_height}
           style={{position: 'relative'}}>
-          <ChannelControl name="Channel 1" data={data} />
-          <ChannelControl name="Channel 2" data={data} />
-          <ChannelControl name="Channel 3" data={data} />
-          <BottomAppBar />
+          <Container
+            className={classes.container_max}
+            style={{overflowY: 'scroll'}}>
+            <Dialog open={fDOpen} onClose={handleFDClose}>
+              <DialogTitle>Load CSV EEG Recording</DialogTitle>
+              <DialogContent>
+                <CSVReader
+                  onFileLoaded={handleFileLoaded}
+                  parserOptions={{
+                    dynamicTyping: true,
+                    skipEmptyLine: true,
+                  }}
+                />
+                <div style={{minHeight: '50px'}} />
+              </DialogContent>
+            </Dialog>
+            {data
+              ? data.map((d, i) => (
+                  <ChannelControl name={`Channel ${i}`} data={data[i]} />
+                ))
+              : null}
+          </Container>
+          <BottomAppBar fDialog={setFDOpen} />
         </Grid>
       </Grid>
     </div>

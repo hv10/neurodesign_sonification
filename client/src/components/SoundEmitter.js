@@ -6,18 +6,20 @@ import Fab from '@material-ui/core/Fab';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import Draggable from 'react-draggable';
 import {
+  Transport,
   PolySynth,
-  AMSynth,
+  Synth,
   Panner3D,
-  Compressor,
+  Reverb,
   Part,
   Master as MasterOut,
 } from 'tone';
 import {connect} from 'react-redux';
 import emitterIdentity from '../actions/emitterIdentityFilter';
+import smoothed_z_score from '../smoothedzscore';
 
 function setUpSynthDevice(cb) {
-  const synth = new AMSynth();
+  const synth = new Synth();
   const panner3D = new Panner3D();
   synth.sync();
   panner3D.panningModel = 'HRTF';
@@ -35,6 +37,7 @@ function SoundEmitter({
   panner3D,
   position,
   events,
+  id,
   dispatch,
 }) {
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -59,17 +62,25 @@ function SoundEmitter({
     }
   }, [position]);
   React.useEffect(() => {
+    Transport.clear();
     if (isLoaded) {
       synth.triggerRelease();
+      const signals = smoothed_z_score(events.map((el, i) => el.value), {
+        lag: 30,
+        threshold: 1.5,
+      });
+      const ev = events.filter((v, i, a) => signals[i] !== 0);
+      console.log(ev);
       const em = new Part(
         function(time, value) {
-          synth.triggerAttackRelease(value, 0.1, time);
+          value = value * 1000 + 250; // maps between 250 and 1250hz
+          synth.triggerAttackRelease(value, 0.5, time);
         },
-        events.map((el, i) => {
-          return [i / 5, el.value];
+        ev.map((el, i) => {
+          return [i / 10, el.value];
         }),
       );
-      em.start(0);
+      em.start();
     }
   }, [events]);
 
@@ -85,6 +96,7 @@ function SoundEmitter({
         position={position}
         onStop={onControlledDrag}>
         <Fab color="secondary" disabled={!isLoaded}>
+          {id.slice(0, 3)}
           <VolumeUpIcon />
         </Fab>
       </Draggable>
@@ -99,6 +111,7 @@ const mapStateToProps = (state, ownProps) => {
     synth: emitterIdentity(state.emitters, ownProps.name).synth,
     panner3D: emitterIdentity(state.emitters, ownProps.name).panner,
     position: emitterIdentity(state.emitters, ownProps.name).position,
+    id: emitterIdentity(state.emitters, ownProps.name).id,
     events: state.transport.events.filter(
       (v, i, a) => v.name === ownProps.name,
     ),
