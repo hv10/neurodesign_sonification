@@ -43,7 +43,7 @@ function SoundReceiver({
       grid={[10, 10]}
       position={position}
       onStop={onControlledDrag}>
-      <div style={{display: 'inline-block'}}>
+      <div style={{position: 'absolute'}}>
         <Fab
           color="primary"
           size="large"

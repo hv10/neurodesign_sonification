@@ -1,4 +1,4 @@
-const transport = (state = {events: []}, action) => {
+const transport = (state = {events: [], max_length: 1}, action) => {
   switch (action.type) {
     case 'PLAY_STATE_CHANGE':
       return {
@@ -11,6 +11,11 @@ const transport = (state = {events: []}, action) => {
       return {...state, index: action.index};
     case 'INDEX_RESET':
       return {...state, index: 0};
+    case 'UPDATE_MAX_LENGTH':
+      return {
+        ...state,
+        max_length: action.max_length,
+      };
     case 'ADD_AUDIO_EVENT':
       return {
         ...state,

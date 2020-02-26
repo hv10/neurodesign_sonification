@@ -24,7 +24,6 @@ function smoothed_z_score(y, params) {
   if (y === undefined || y.length < lag + 2) {
     throw ` ## y data array to short(${y.length}) for given lag of ${lag}`;
   }
-  //console.log(`lag, threshold, influence: ${lag}, ${threshold}, ${influence}`)
 
   // init variables
   var signals = Array(y.length).fill(0);

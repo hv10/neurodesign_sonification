@@ -6,6 +6,7 @@ import StopIcon from '@material-ui/icons/Stop';
 import PauseIcon from '@material-ui/icons/Pause';
 import {Transport} from 'tone';
 import Typography from '@material-ui/core/Typography';
+import {connect} from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   transportControls: {
@@ -23,13 +24,14 @@ const useStyles = makeStyles(theme => ({
   progressBar: {margin: '0 10px'},
 }));
 
-function TransportControls(length = 1) {
+function TransportControls({length}) {
   const classes = useStyles();
   const [isPlaying, setIsPlaying] = React.useState(false);
+  const [progress, setProgress] = React.useState(0);
   React.useEffect(() => {
     Transport.loop = true;
-    Transport.setLoopPoints(0, '1m');
-  }, []);
+    Transport.setLoopPoints(0, length);
+  }, [length]);
   function togglePlaying() {
     if (isPlaying) {
       Transport.pause();
@@ -39,6 +41,10 @@ function TransportControls(length = 1) {
       setIsPlaying(true);
     }
   }
+  React.useEffect(() => {
+    setProgress(Transport.progress);
+    console.log(Transport.progress);
+  }, [Transport.progress]);
   function handleStop() {
     Transport.seconds = 0;
     Transport.stop();
@@ -64,9 +70,15 @@ function TransportControls(length = 1) {
         <StopIcon />
       </Fab>
       <Typography variant="h5" className={classes.progressBar}>
-        {Math.round(Transport.seconds, 2)}
+        {progress}/{length}
       </Typography>
     </span>
   );
 }
-export default TransportControls;
+
+const mapStateToProps = state => {
+  return {
+    length: state.transport.max_length,
+  };
+};
+export default connect(mapStateToProps)(TransportControls);

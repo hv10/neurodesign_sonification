@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
+import {connect} from 'react-redux';
 import './App.css';
 import '../node_modules/react-vis/dist/style.css';
 import {XYPlot, LineSeries} from 'react-vis';
@@ -17,11 +18,14 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import {AutoSizer} from 'react-virtualized';
 
 import BottomAppBar from './components/BottomAppBar';
 import AudioField from './components/AudioField';
 import ChannelControl from './components/ChannelControl';
 import TransportControls from './components/TransportControls';
+import {Transport} from 'tone';
+import {LineChart, Brush, XAxis} from 'recharts';
 
 const useStyles = makeStyles(theme => ({
   container_max: {width: '100%', height: '100%'},
@@ -31,13 +35,16 @@ const useStyles = makeStyles(theme => ({
   controlFab: {position: 'relative', margin: '0 5px'},
 }));
 
-function App() {
+function App({dispatch}) {
   const classes = useStyles();
   const containerRef = React.useRef();
-  const [data, setData] = React.useState(null);
+  const [data, setData] = React.useState([]);
   const [fDOpen, setFDOpen] = React.useState(false);
   React.useEffect(() => {
-    console.log('>>>DATA', data);
+    Transport.clear();
+    for (var i = 0; i < data.length; i++) {
+      dispatch({type: 'EMITTER_DATA', name: `Channel ${i}`, data: data[i]});
+    }
   }, [data]);
   function handleFDClose() {
     setFDOpen(false);
@@ -97,9 +104,23 @@ function App() {
                 <div style={{minHeight: '50px'}} />
               </DialogContent>
             </Dialog>
+            {data ? (
+              <AutoSizer disableHeight style={{position: 'sticky'}}>
+                {({width}) => (
+                  <LineChart
+                    width={width}
+                    height={50}
+                    data={data[0]}
+                    syncId="anyId">
+                    <Brush />
+                    <XAxis dataKey="x" />
+                  </LineChart>
+                )}
+              </AutoSizer>
+            ) : null}
             {data
               ? data.map((d, i) => (
-                  <ChannelControl name={`Channel ${i}`} data={data[i]} />
+                  <ChannelControl key={i} name={`Channel ${i}`} />
                 ))
               : null}
           </Container>
@@ -110,4 +131,4 @@ function App() {
   );
 }
 
-export default App;
+export default connect()(App);

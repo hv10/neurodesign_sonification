@@ -38,6 +38,7 @@ function SoundEmitter({
   position,
   events,
   id,
+  max_length,
   dispatch,
 }) {
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -62,27 +63,36 @@ function SoundEmitter({
     }
   }, [position]);
   React.useEffect(() => {
-    Transport.clear();
     if (isLoaded) {
       synth.triggerRelease();
-      const signals = smoothed_z_score(events.map((el, i) => el.value), {
+      const signals = smoothed_z_score(events.map((el, i) => el.y), {
         lag: 30,
         threshold: 1.5,
       });
+      dispatch({
+        type: 'EMITTER_SIGNAL_DATA',
+        name: name,
+        signal_data: signals.map((el, i) => el / 3 + 0.5),
+      });
       const ev = events.filter((v, i, a) => signals[i] !== 0);
-      console.log(ev);
       const em = new Part(
         function(time, value) {
           value = value * 1000 + 250; // maps between 250 and 1250hz
           synth.triggerAttackRelease(value, 0.5, time);
         },
         ev.map((el, i) => {
-          return [i / 10, el.value];
+          return [el.x / 10, el.y];
         }),
       );
-      em.start();
+      em.start(0);
+      if (ev[ev.length - 1].x / 10 > max_length) {
+        dispatch({
+          type: 'UPDATE_MAX_LENGTH',
+          max_length: ev[ev.length - 1].x / 10,
+        });
+      }
     }
-  }, [events]);
+  }, [events, isLoaded]);
 
   function onControlledDrag(e, data) {
     const {x, y, node} = data;
@@ -95,14 +105,17 @@ function SoundEmitter({
         grid={[10, 10]}
         position={position}
         onStop={onControlledDrag}>
-        <Fab color="secondary" disabled={!isLoaded}>
+        <Fab
+          color="secondary"
+          disabled={!isLoaded}
+          style={{position: 'absolute'}}>
           {id.slice(0, 3)}
           <VolumeUpIcon />
         </Fab>
       </Draggable>
     );
   } else {
-    return <div />;
+    return <></>;
   }
 }
 const mapStateToProps = (state, ownProps) => {
@@ -112,9 +125,8 @@ const mapStateToProps = (state, ownProps) => {
     panner3D: emitterIdentity(state.emitters, ownProps.name).panner,
     position: emitterIdentity(state.emitters, ownProps.name).position,
     id: emitterIdentity(state.emitters, ownProps.name).id,
-    events: state.transport.events.filter(
-      (v, i, a) => v.name === ownProps.name,
-    ),
+    events: emitterIdentity(state.emitters, ownProps.name).data,
+    max_length: state.transport.max_length,
   };
 };
 

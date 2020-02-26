@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
   container_max: {
     width: '100%',
     height: '100%',
+    minHeight: '100%',
   },
   max_height: {height: '100vh'},
   responsive_img: {width: '100%', height: 'auto'},

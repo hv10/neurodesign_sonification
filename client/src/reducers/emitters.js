@@ -30,6 +30,18 @@ const emitters = (state = [], action) => {
           ? {...emitter, position: action.position}
           : emitter,
       );
+    case 'EMITTER_SIGNAL_DATA':
+      return state.map(emitter =>
+        emitter.name === action.name
+          ? {...emitter, signal_data: action.signal_data}
+          : emitter,
+      );
+    case 'EMITTER_DATA':
+      return state.map(emitter =>
+        emitter.name === action.name
+          ? {...emitter, data: action.data}
+          : emitter,
+      );
     case 'REMOVE EMITTER':
       return state.filter(function(value, index, arr) {
         return value.name !== action.name;

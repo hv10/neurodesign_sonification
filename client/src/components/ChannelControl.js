@@ -15,6 +15,18 @@ import {AutoSizer} from 'react-virtualized';
 import {connect} from 'react-redux';
 import emitterIdentity from '../actions/emitterIdentityFilter';
 import {Transport, Event} from 'tone';
+import {
+  LineChart,
+  Line,
+  AreaChart,
+  Area,
+  Brush,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Label,
+} from 'recharts';
 
 function uuidv4() {
   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
@@ -25,7 +37,8 @@ function uuidv4() {
   );
 }
 
-function ChannelControl({name, visibility, data, id, dispatch}) {
+function ChannelControl({name, visibility, data, signal_data, id, dispatch}) {
+  const [signalMap, setSignalMap] = React.useState({});
   React.useEffect(() => {
     dispatch({
       type: 'ADD_EMITTER',
@@ -33,42 +46,54 @@ function ChannelControl({name, visibility, data, id, dispatch}) {
       position: {x: 0, y: 0},
       id: uuidv4(),
     });
-    data.map((el, i) => {
-      dispatch({type: 'ADD_AUDIO_EVENT', name: name, index: i, value: el.y});
-    });
   }, []);
+  React.useEffect(() => {
+    let s_map = [];
+    for (var i = 0; i < data.length; i++) {
+      s_map.push({x: i, y: data[i].y, y_s: signal_data[i]});
+    }
+    setSignalMap(s_map);
+  }, [data, signal_data]);
   return (
-    <Card style={{margin: '10px 0'}}>
-      <CardContent>
-        <Typography variant="h5">{name}</Typography>
-        <AutoSizer disableHeight>
-          {({width}) => (
-            <ZoomAndBrush
-              width={width}
-              height={250}
-              heightSm={75}
-              lineData={data}
+    <>
+      <Typography variant="h6">{name}</Typography>
+      <AutoSizer disableHeight>
+        {({width}) => (
+          <LineChart width={width} height={200} data={signalMap} syncId="anyId">
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="x" />
+            <YAxis type="number" domain={[0, 1]} />
+            <Tooltip />
+            <Line
+              type="step"
+              dot={false}
+              activeDot={false}
+              dataKey="y_s"
+              stroke="grey"
             />
-          )}
-        </AutoSizer>
-      </CardContent>
-      <CardActions>
-        <Button
-          color={visibility ? 'default' : 'secondary'}
-          variant="outlined"
-          onClick={() =>
-            dispatch({type: 'TOGGLE_EMITTER_ENABLED', name: name})
-          }>
-          {visibility ? <VisibilityIcon /> : <VisibilityOffIcon />}
-        </Button>
-        {id ? (
-          <Typography>
-            ID: <strong>{id.slice(0, 3)}</strong>
-            <em>{id.slice(3)}</em>
-          </Typography>
-        ) : null}
-      </CardActions>
-    </Card>
+            <Line
+              type="monotone"
+              dot={false}
+              activeDot={{stroke: 'red'}}
+              dataKey="y"
+              stroke="lightgreen"
+            />
+          </LineChart>
+        )}
+      </AutoSizer>
+      <Button
+        color={visibility ? 'default' : 'secondary'}
+        variant="outlined"
+        onClick={() => dispatch({type: 'TOGGLE_EMITTER_ENABLED', name: name})}>
+        {visibility ? <VisibilityIcon /> : <VisibilityOffIcon />}
+      </Button>
+      {id ? (
+        <Typography>
+          ID: <strong>{id.slice(0, 3)}</strong>
+          <em>{id.slice(3)}</em>
+        </Typography>
+      ) : null}
+    </>
   );
 }
 
@@ -76,6 +101,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     visibility: emitterIdentity(state.emitters, ownProps.name).enabled,
     id: emitterIdentity(state.emitters, ownProps.name).id,
+    signal_data:
+      emitterIdentity(state.emitters, ownProps.name).signal_data || [],
+    data: emitterIdentity(state.emitters, ownProps.name).data || [],
   };
 };
 
