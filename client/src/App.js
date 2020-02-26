@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import '../node_modules/react-vis/dist/style.css';
 import {XYPlot, LineSeries} from 'react-vis';
-import openSocket from 'socket.io-client';
+//import openSocket from 'socket.io-client';
 import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
