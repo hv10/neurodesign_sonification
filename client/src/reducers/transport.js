@@ -1,4 +1,4 @@
-const transport = (state = {events: [], max_length: 1}, action) => {
+const transport = (state = {events: [], max_length: 0.01}, action) => {
   switch (action.type) {
     case 'PLAY_STATE_CHANGE':
       return {

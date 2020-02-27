@@ -1,6 +1,7 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
 import PauseIcon from '@material-ui/icons/Pause';
@@ -28,6 +29,7 @@ function TransportControls({length}) {
   const classes = useStyles();
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
+  const [counter, setCounter] = React.useState(false);
   React.useEffect(() => {
     Transport.loop = true;
     Transport.setLoopPoints(0, length);
@@ -39,18 +41,28 @@ function TransportControls({length}) {
     } else {
       Transport.start();
       setIsPlaying(true);
+      if (counter === false) {
+        var id = Transport.scheduleRepeat(
+          time => {
+            setProgress(Transport.progress);
+          },
+          0.2,
+          0,
+        );
+        setCounter(id);
+        console.log(id);
+      }
     }
   }
-  React.useEffect(() => {
-    setProgress(Transport.progress);
-    console.log(Transport.progress);
-  }, [Transport.progress]);
   function handleStop() {
     Transport.seconds = 0;
     Transport.stop();
     Transport.seconds = 0;
     Transport.start();
     Transport.stop();
+    Transport.clear(counter);
+    setCounter(false);
+    setProgress(0);
     setIsPlaying(false);
   }
   return (
@@ -69,8 +81,13 @@ function TransportControls({length}) {
         onClick={handleStop}>
         <StopIcon />
       </Fab>
+      <LinearProgress
+        variant="determinate"
+        style={{width: 200}}
+        value={progress * 100}
+      />
       <Typography variant="h5" className={classes.progressBar}>
-        {progress}/{length}
+        {(progress * length).toFixed(1)}/{length.toFixed(1)}s
       </Typography>
     </span>
   );
