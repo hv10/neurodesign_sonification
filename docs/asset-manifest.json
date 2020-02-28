@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/static/css/main.42222c07.chunk.css",
-    "main.js": "/static/js/main.c34c7501.chunk.js",
-    "main.js.map": "/static/js/main.c34c7501.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.844668cf.js",
-    "runtime-main.js.map": "/static/js/runtime-main.844668cf.js.map",
-    "static/css/2.5a2f7233.chunk.css": "/static/css/2.5a2f7233.chunk.css",
-    "static/js/2.86b71e31.chunk.js": "/static/js/2.86b71e31.chunk.js",
-    "static/js/2.86b71e31.chunk.js.map": "/static/js/2.86b71e31.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.10f7e0d182e288ad6356193325770d58.js": "/precache-manifest.10f7e0d182e288ad6356193325770d58.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/2.5a2f7233.chunk.css.map": "/static/css/2.5a2f7233.chunk.css.map",
-    "static/css/main.42222c07.chunk.css.map": "/static/css/main.42222c07.chunk.css.map",
-    "static/js/2.86b71e31.chunk.js.LICENSE.txt": "/static/js/2.86b71e31.chunk.js.LICENSE.txt",
-    "static/media/brain-overview.jpg": "/static/media/brain-overview.3b0eb74b.jpg",
-    "static/media/logo.svg": "/static/media/logo.5d5d9eef.svg"
+    "main.css": "/neurodesign_sonification/static/css/main.42222c07.chunk.css",
+    "main.js": "/neurodesign_sonification/static/js/main.edb8d4ac.chunk.js",
+    "main.js.map": "/neurodesign_sonification/static/js/main.edb8d4ac.chunk.js.map",
+    "runtime-main.js": "/neurodesign_sonification/static/js/runtime-main.075af109.js",
+    "runtime-main.js.map": "/neurodesign_sonification/static/js/runtime-main.075af109.js.map",
+    "static/css/2.5a2f7233.chunk.css": "/neurodesign_sonification/static/css/2.5a2f7233.chunk.css",
+    "static/js/2.86b71e31.chunk.js": "/neurodesign_sonification/static/js/2.86b71e31.chunk.js",
+    "static/js/2.86b71e31.chunk.js.map": "/neurodesign_sonification/static/js/2.86b71e31.chunk.js.map",
+    "index.html": "/neurodesign_sonification/index.html",
+    "precache-manifest.e8374b8c2f62a4fab8ac6b9927b68924.js": "/neurodesign_sonification/precache-manifest.e8374b8c2f62a4fab8ac6b9927b68924.js",
+    "service-worker.js": "/neurodesign_sonification/service-worker.js",
+    "static/css/2.5a2f7233.chunk.css.map": "/neurodesign_sonification/static/css/2.5a2f7233.chunk.css.map",
+    "static/css/main.42222c07.chunk.css.map": "/neurodesign_sonification/static/css/main.42222c07.chunk.css.map",
+    "static/js/2.86b71e31.chunk.js.LICENSE.txt": "/neurodesign_sonification/static/js/2.86b71e31.chunk.js.LICENSE.txt",
+    "static/media/brain-overview.jpg": "/neurodesign_sonification/static/media/brain-overview.3b0eb74b.jpg",
+    "static/media/logo.svg": "/neurodesign_sonification/static/media/logo.5d5d9eef.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.844668cf.js",
+    "static/js/runtime-main.075af109.js",
     "static/css/2.5a2f7233.chunk.css",
     "static/js/2.86b71e31.chunk.js",
     "static/css/main.42222c07.chunk.css",
-    "static/js/main.c34c7501.chunk.js"
+    "static/js/main.edb8d4ac.chunk.js"
   ]
 }
