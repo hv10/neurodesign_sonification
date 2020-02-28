@@ -14,6 +14,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
 import PauseIcon from '@material-ui/icons/Pause';
 import CSVReader from 'react-csv-reader';
+import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -26,6 +27,8 @@ import ChannelControl from './components/ChannelControl';
 import TransportControls from './components/TransportControls';
 import {Transport} from 'tone';
 import {LineChart, Brush, XAxis} from 'recharts';
+
+import demoData from './assets/demoData';
 
 const useStyles = makeStyles(theme => ({
   container_max: {width: '100%', height: '100%'},
@@ -101,6 +104,9 @@ function App({dispatch}) {
                     skipEmptyLine: true,
                   }}
                 />
+                <Button onClick={() => handleFileLoaded(demoData)}>
+                  Load Demo File
+                </Button>
                 <div style={{minHeight: '50px'}} />
               </DialogContent>
             </Dialog>
