@@ -70,10 +70,6 @@ function App({dispatch}) {
     setData(res);
     handleFDClose();
   }
-  //remove after debugging
-  React.useEffect(() => {
-    handleFileLoaded(demoData);
-  }, []);
   return (
     <div style={{width: '100vw', height: '100vh'}}>
       <Grid container direction="row">
