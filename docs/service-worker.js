@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/neurodesign_sonification/precache-manifest.10b698fbda40d580f976f5b46723fcdc.js"
+  "/neurodesign_sonification/precache-manifest.60b14e4eafd80c64971c1e886852651d.js"
 );
 
 self.addEventListener('message', (event) => {

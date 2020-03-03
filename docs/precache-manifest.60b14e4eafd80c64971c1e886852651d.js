@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "5fa5680288bcbfcb9c669fa71d9d4a5d",
+    "revision": "752d46e8cbaf1ed250bd81427cd19d82",
     "url": "/neurodesign_sonification/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/neurodesign_sonification/static/css/2.5a2f7233.chunk.css"
   },
   {
-    "revision": "25cc4238bb024d3da230",
+    "revision": "e5eab0781cfa97b90ce1",
     "url": "/neurodesign_sonification/static/css/main.42222c07.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/neurodesign_sonification/static/js/2.c8bbeff4.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "25cc4238bb024d3da230",
-    "url": "/neurodesign_sonification/static/js/main.b014b26b.chunk.js"
+    "revision": "e5eab0781cfa97b90ce1",
+    "url": "/neurodesign_sonification/static/js/main.4a746bfc.chunk.js"
   },
   {
     "revision": "751b3d39da7e26d64d2e",
