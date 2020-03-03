@@ -22,7 +22,7 @@ const useStyle = makeStyles({
 
 function SoundReceiver({
   callback = console.log,
-  defaultPos = {x: 512, y: 512},
+  defaultPos = {x: 100, y: 100},
 }) {
   const classes = useStyle();
   const [position, setPosition] = React.useState({

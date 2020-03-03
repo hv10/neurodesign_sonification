@@ -37,16 +37,26 @@ function TransportControls({length}) {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
   const [counter, setCounter] = React.useState(false);
-  const [current, setCurrent] = React.useState(0);
   const [settingsAnchor, setSettingsAnchor] = React.useState(null);
   const [tempo, setTempo] = React.useState(1);
+  const [current, setCurrent] = React.useState(null);
   const [loopPoints, setLoopPoints] = React.useState([0, length]);
   const [cLoopPoints, setCLoopPoints] = React.useState([0, length]);
   React.useEffect(() => {
     Transport.loop = true;
     Transport.setLoopPoints(0, length);
+    Transport.bpm.rampTo(120);
     setLoopPoints([0, length]);
+    setCLoopPoints([0, length]);
+    setTempo(1);
+    setProgress(0);
+    setCurrent(0);
   }, [length]);
+
+  React.useEffect(() => {
+    setCurrent(currentRelPos(progress, ...cLoopPoints));
+  }, [progress]);
+
   function togglePlaying() {
     if (isPlaying) {
       Transport.pause();
@@ -63,16 +73,13 @@ function TransportControls({length}) {
           0,
         );
         setCounter(id);
-        console.log(id);
       }
     }
   }
+
   function handleStop() {
-    Transport.seconds = loopPoints[0];
     Transport.stop();
-    Transport.seconds = loopPoints[0];
-    Transport.start();
-    Transport.stop();
+    Transport.seconds = cLoopPoints[0];
     Transport.clear(counter);
     setCounter(false);
     setProgress(0);
@@ -89,12 +96,20 @@ function TransportControls({length}) {
     Transport.setLoopPoints(loopPoints[0], loopPoints[1]);
     setCLoopPoints(loopPoints);
     Transport.bpm.rampTo(120 * tempo, 1);
+    handleStop();
   }
-  function currentRelPos() {
-    return cLoopPoints[0] + progress * (length - cLoopPoints[1]);
+  function currentRelPos(value, c1, c2) {
+    return c1 + value * (c2 - c1);
   }
   function handleJump(v) {
+    if (cLoopPoints[0] > v) {
+      v = cLoopPoints[0];
+    }
+    if (cLoopPoints[1] < v) {
+      v = cLoopPoints[1];
+    }
     Transport.seconds = v;
+    setCurrent(v);
   }
   const settingsOpen = Boolean(settingsAnchor);
   return (
@@ -125,17 +140,24 @@ function TransportControls({length}) {
               value={current}
               min={0}
               max={length}
+              step={0.1}
+              marks={[
+                {value: cLoopPoints[0], label: 'S'},
+                {value: cLoopPoints[1], label: 'E'},
+              ]}
               style={{width: '100%'}}
-              onChange={(e, v) => setCurrent(v)}
-              onChangeCommited={(e, v) => handleJump(v)}
+              onChange={(e, v) => {
+                handleJump(v);
+              }}
             />
           </Grid>
           <Grid item xs={2}>
             <Typography variant="h6" className={classes.progressBar}>
-              {(cLoopPoints[0] + progress * (length - cLoopPoints[1])).toFixed(
-                1,
-              )}
-              /{length.toFixed(1)}s
+              {currentRelPos(progress, ...cLoopPoints).toFixed(1)}/
+              {cLoopPoints[1] !== length
+                ? cLoopPoints[1].toFixed(1) + '(' + length.toFixed(1) + ')'
+                : length.toFixed(1)}
+              s
             </Typography>
           </Grid>
         </Grid>

@@ -98,6 +98,7 @@ function SoundEmitter({
     const {x, y, node} = data;
     dispatch({type: 'UPDATE_EMITTER_POS', name: name, position: {x, y}});
   }
+
   if (enabled) {
     return (
       <Draggable

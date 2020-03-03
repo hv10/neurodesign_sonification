@@ -37,13 +37,23 @@ function uuidv4() {
   );
 }
 
+function customTick({x, y, stroke, payload}) {
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text x={0} y={0} dy={16} fill="#666">
+        {payload.value}
+      </text>
+    </g>
+  );
+}
+
 function ChannelControl({name, visibility, data, signal_data, id, dispatch}) {
   const [signalMap, setSignalMap] = React.useState({});
   React.useEffect(() => {
     dispatch({
       type: 'ADD_EMITTER',
       name: name,
-      position: {x: 0, y: 0},
+      position: {x: 0, y: 100},
       id: uuidv4(),
     });
   }, []);

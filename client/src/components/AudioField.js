@@ -3,6 +3,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import Draggable from 'react-draggable';
 import SoundEmitter from '../components/SoundEmitter';
@@ -75,6 +76,13 @@ function AudioField({sources, dispatch}) {
       emitters[name].panner3D.setPosition(delta.x * SCALE, delta.y * SCALE, 0);
     }
   }
+
+  function panic() {
+    for (var emitter in emitters) {
+      emitters[emitter].synth.oscillator.stop();
+    }
+  }
+
   return (
     <Container className={classes.container_max}>
       <div
@@ -99,6 +107,13 @@ function AudioField({sources, dispatch}) {
           />
         ))}
         <SoundReceiver callback={setRecvPosition} />
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={panic}
+          style={{position: 'absolute', top: '2vh', left: '2vh'}}>
+          Panic!
+        </Button>
       </div>
     </Container>
   );
