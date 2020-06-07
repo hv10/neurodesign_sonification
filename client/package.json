@@ -20,6 +20,7 @@
     "react-vis": "^1.11.7",
     "recharts": "^2.0.0-beta.1",
     "redux": "^4.0.5",
+    "redux-persist": "^6.0.0",
     "socket.io": "^2.3.0",
     "tone": "^13.8.25",
     "victory": "^34.0.1"
@@ -36,7 +37,11 @@
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -48,7 +53,8 @@
     "@storybook/addon-links": "^5.3.9",
     "@storybook/addons": "^5.3.9",
     "@storybook/preset-create-react-app": "^1.5.2",
-    "@storybook/react": "^5.3.9"
+    "@storybook/react": "^5.3.9",
+    "prettier": "^2.0.5"
   },
   "homepage": "https://hv10.github.io/neurodesign_sonification/"
 }

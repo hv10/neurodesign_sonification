@@ -1,31 +1,31 @@
-import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import Draggable from 'react-draggable';
-import SoundEmitter from '../components/SoundEmitter';
-import SoundReceiver from '../components/SoundReceiver';
-import {Listener} from 'tone';
-import {connect} from 'react-redux';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
+import VolumeUpIcon from "@material-ui/icons/VolumeUp";
+import Draggable from "react-draggable";
+import SoundEmitter from "../components/SoundEmitter";
+import SoundReceiver from "../components/SoundReceiver";
+import { Listener } from "tone";
+import { connect } from "react-redux";
 
-import BrainSource from '../assets/images/brain-overview.jpg';
+import BrainSource from "../assets/images/brain-overview.jpg";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container_max: {
-    width: '100%',
-    height: '100%',
-    minHeight: '100%',
+    width: "100%",
+    height: "100%",
+    minHeight: "100%",
   },
-  max_height: {height: '100vh'},
-  responsive_img: {width: '100%', height: 'auto'},
+  max_height: { height: "100vh" },
+  responsive_img: { width: "100%", height: "auto" },
 }));
 
 const SCALE = 10;
 
-function AudioField({sources, dispatch}) {
+function AudioField({ sources, dispatch }) {
   const classes = useStyles();
   const [audio, setAudio] = React.useState(null);
   const [emitters, setEmitters] = React.useState({});
@@ -47,7 +47,7 @@ function AudioField({sources, dispatch}) {
     })();
   }, []);
   React.useEffect(() => {
-    console.log('new Audio Input');
+    console.log("new Audio Input");
   }, [audio]);
 
   React.useEffect(() => {
@@ -62,7 +62,7 @@ function AudioField({sources, dispatch}) {
 
   function registerSoundEmitter(name, synth, panner3D, position) {
     let state = emitters;
-    state[name] = {synth: synth, panner3D: panner3D, position: position};
+    state[name] = { synth: synth, panner3D: panner3D, position: position };
     setEmitters(state);
   }
 
@@ -88,17 +88,18 @@ function AudioField({sources, dispatch}) {
       <div
         className={classes.container_max}
         style={{
-          backgroundImage: 'url(' + BrainSource + ')',
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
+          backgroundImage: "url(" + BrainSource + ")",
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
         }}
-        ref={containerRef}>
-        {sources.map(source => (
+        ref={containerRef}
+      >
+        {sources.map((source) => (
           <SoundEmitter
             key={source.name}
             name={source.name}
-            onPositionChange={position =>
+            onPositionChange={(position) =>
               updateEmitterPosition(source.name, position)
             }
             callback={(s, p, pos) => {
@@ -111,14 +112,15 @@ function AudioField({sources, dispatch}) {
           variant="outlined"
           color="secondary"
           onClick={panic}
-          style={{position: 'absolute', top: '2vh', left: '2vh'}}>
+          style={{ position: "absolute", top: "2vh", left: "2vh" }}
+        >
           Panic!
         </Button>
       </div>
     </Container>
   );
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     sources: state.emitters,
   };
