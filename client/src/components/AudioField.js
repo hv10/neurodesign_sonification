@@ -12,6 +12,10 @@ import { Listener } from "tone";
 import { connect } from "react-redux";
 
 import BrainSource from "../assets/images/brain-overview.jpg";
+import {
+  updateEmitterPannerPosition,
+  updateEmitterPos,
+} from "../reducers/emitters";
 
 const useStyles = makeStyles((theme) => ({
   container_max: {
@@ -25,10 +29,13 @@ const useStyles = makeStyles((theme) => ({
 
 const SCALE = 10;
 
-function AudioField({ sources, dispatch }) {
+function AudioField({
+  sources,
+  updateEmitterPos,
+  updateEmitterPannerPosition,
+}) {
   const classes = useStyles();
   const [audio, setAudio] = React.useState(null);
-  const [emitters, setEmitters] = React.useState({});
   const [recvPosition, setRecvPosition] = React.useState({
     x: 0.0,
     y: 0.0,
@@ -55,31 +62,31 @@ function AudioField({ sources, dispatch }) {
     const y = recvPosition.y / containerRef.current.clientHeight;
     const z = 0.0;
     Listener.setPosition(x, y, z).setOrientation(0, 1, 0, 0, 0, 1);
-    for (var em in emitters) {
-      updateEmitterPosition(em, emitters[em].position);
+    for (var i = 0; i < sources.length; i++) {
+      const { name, position } = sources[i];
+      updateEmitterPos({
+        name: name,
+        position: position,
+      });
+      let delta = {
+        x:
+          ((position.x - recvPosition.x) / containerRef.current.clientWidth) *
+          SCALE,
+        y:
+          ((recvPosition.y - position.y) / containerRef.current.clientHeight) *
+          SCALE,
+        z: 0,
+      };
+      updateEmitterPannerPosition({
+        name: name,
+        position: delta,
+      });
     }
   }, [recvPosition]);
 
-  function registerSoundEmitter(name, synth, panner3D, position) {
-    let state = emitters;
-    state[name] = { synth: synth, panner3D: panner3D, position: position };
-    setEmitters(state);
-  }
-
-  function updateEmitterPosition(name, position) {
-    let delta = {
-      x: (position.x - recvPosition.x) / containerRef.current.clientWidth,
-      y: (recvPosition.y - position.y) / containerRef.current.clientHeight,
-    };
-    if (emitters[name] !== null) {
-      emitters[name].position = position;
-      emitters[name].panner3D.setPosition(delta.x * SCALE, delta.y * SCALE, 0);
-    }
-  }
-
   function panic() {
-    for (var emitter in emitters) {
-      emitters[emitter].synth.oscillator.stop();
+    for (var i = 0; i < sources.length; i++) {
+      sources[i].synth.oscillator.stop();
     }
   }
 
@@ -100,11 +107,8 @@ function AudioField({ sources, dispatch }) {
             key={source.name}
             name={source.name}
             onPositionChange={(position) =>
-              updateEmitterPosition(source.name, position)
+              updateEmitterPos(source.name, position)
             }
-            callback={(s, p, pos) => {
-              registerSoundEmitter(source.name, s, p, pos);
-            }}
           />
         ))}
         <SoundReceiver callback={setRecvPosition} />
@@ -126,4 +130,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(AudioField);
+const mapDispatchToProps = {
+  updateEmitterPos,
+  updateEmitterPannerPosition,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AudioField);

@@ -1,53 +1,69 @@
-const emitters = (state = [], action) => {
-  switch (action.type) {
-    case 'ADD_EMITTER':
-      return [
-        ...state,
-        {
-          name: action.name,
-          position: action.position,
-          synth: action.synth,
-          panner: action.panner3D,
-          enabled: true,
-          id: action.id,
-        },
-      ];
-    case 'UPDATE_EMITTER_AUDIO_NODES':
-      return state.map(emitter =>
-        emitter.name === action.name
-          ? {...emitter, synth: action.synth, panner: action.panner}
-          : emitter,
-      );
-    case 'TOGGLE_EMITTER_ENABLED':
-      return state.map(emitter =>
-        emitter.name === action.name
-          ? {...emitter, enabled: !emitter.enabled}
-          : emitter,
-      );
-    case 'UPDATE_EMITTER_POS':
-      return state.map(emitter =>
-        emitter.name === action.name
-          ? {...emitter, position: action.position}
-          : emitter,
-      );
-    case 'EMITTER_SIGNAL_DATA':
-      return state.map(emitter =>
-        emitter.name === action.name
-          ? {...emitter, signal_data: action.signal_data}
-          : emitter,
-      );
-    case 'EMITTER_DATA':
-      return state.map(emitter =>
-        emitter.name === action.name
-          ? {...emitter, data: action.data}
-          : emitter,
-      );
-    case 'REMOVE EMITTER':
-      return state.filter(function(value, index, arr) {
-        return value.name !== action.name;
+import { createSlice } from "@reduxjs/toolkit";
+
+const emitters = createSlice({
+  name: "emitters",
+  initialState: [],
+  reducers: {
+    addEmitter(state, action) {
+      const { name, position, synth, panner, id } = action.payload;
+      state.push({ name, position, synth, panner, id, enabled: true });
+    },
+    toggleEmitterEnabled(state, action) {
+      const emitter = state.find((v) => v.name === action.payload);
+      if (emitter) {
+        emitter.enabled = !emitter.enabled;
+      }
+    },
+    updateEmitterPos(state, action) {
+      const { name, position } = action.payload;
+      const emitter = state.find((v) => v.name === name);
+      if (emitter) {
+        emitter.position = position;
+      }
+    },
+    emitterSignalData(state, action) {
+      const { name, signal_data } = action.payload;
+      const emitter = state.find((v) => v.name === name);
+      if (emitter) {
+        emitter.signal_data = signal_data;
+      }
+    },
+    emitterData(state, action) {
+      const { name, data } = action.payload;
+      const emitter = state.find((v) => v.name === name);
+      if (emitter) {
+        emitter.data = data;
+      }
+    },
+    updateEmitterAudioNodes(state, action) {
+      const { name, synth, panner } = action.payload;
+      return state.map((v) => {
+        if (v.name !== name) {
+          return v;
+        }
+        return { ...v, synth: synth, panner: panner };
       });
-    default:
-      return state;
-  }
-};
-export default emitters;
+    },
+    removeEmitter(state, action) {
+      return state.filter((v) => v.name !== action.payload);
+    },
+    updateEmitterPannerPosition(state, action) {
+      const { name, position } = action.payload;
+      const emitter = state.find((v) => v.name === name);
+      if (emitter) {
+        emitter.panner.setPosition(position.x, position.y, position.z);
+      }
+    },
+  },
+});
+export const {
+  addEmitter,
+  toggleEmitterEnabled,
+  emitterData,
+  emitterSignalData,
+  removeEmitter,
+  updateEmitterAudioNodes,
+  updateEmitterPos,
+  updateEmitterPannerPosition,
+} = emitters.actions;
+export default emitters.reducer;

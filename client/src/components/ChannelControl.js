@@ -28,6 +28,7 @@ import {
   Label,
 } from "recharts";
 import Divider from "@material-ui/core/Divider";
+import { addEmitter, toggleEmitterEnabled } from "../reducers/emitters";
 
 function uuidv4() {
   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
@@ -48,15 +49,18 @@ function customTick({ x, y, stroke, payload }) {
   );
 }
 
-function ChannelControl({ name, visibility, data, signal_data, id, dispatch }) {
+function ChannelControl({
+  name,
+  visibility,
+  data,
+  signal_data,
+  id,
+  addEmitter,
+  toggleEmitterEnabled,
+}) {
   const [signalMap, setSignalMap] = React.useState({});
   React.useEffect(() => {
-    dispatch({
-      type: "ADD_EMITTER",
-      name: name,
-      position: { x: 0, y: 100 },
-      id: uuidv4(),
-    });
+    addEmitter({ name: name, position: { x: 0, y: 100 }, id: uuidv4() });
   }, []);
   React.useEffect(() => {
     let s_map = [];
@@ -71,9 +75,7 @@ function ChannelControl({ name, visibility, data, signal_data, id, dispatch }) {
         {name}
         <Button
           color={visibility ? "default" : "secondary"}
-          onClick={() =>
-            dispatch({ type: "TOGGLE_EMITTER_ENABLED", name: name })
-          }
+          onClick={() => toggleEmitterEnabled(name)}
         >
           {visibility ? <VisibilityIcon /> : <VisibilityOffIcon />}
         </Button>
@@ -132,4 +134,9 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(ChannelControl);
+const mapDispatch = {
+  addEmitter,
+  toggleEmitterEnabled,
+};
+
+export default connect(mapStateToProps, mapDispatch)(ChannelControl);

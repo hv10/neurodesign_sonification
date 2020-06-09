@@ -18,6 +18,13 @@ import { connect } from "react-redux";
 import emitterIdentity from "../actions/emitterIdentityFilter";
 import smoothed_z_score from "../smoothedzscore";
 
+import {
+  updateEmitterAudioNodes,
+  updateEmitterPos,
+  emitterSignalData,
+} from "../reducers/emitters";
+import { updateMaxLength } from "../reducers/transport";
+
 function setUpSynthDevice(cb) {
   const synth = new Synth();
   const panner3D = new Panner3D();
@@ -31,32 +38,22 @@ function setUpSynthDevice(cb) {
 function SoundEmitter({
   name,
   onPositionChange,
-  callback = console.log,
   enabled,
   synth,
-  panner3D,
   position,
   events,
   id,
   max_length,
-  dispatch,
+  updateEmitterPos,
+  updateEmitterAudioNodes,
+  emitterSignalData,
+  updateMaxLength,
 }) {
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const [emitterEvents, setEmitterEvents] = React.useState([]);
   React.useEffect(() => {
-    const [synth_d, panner3D_d] = setUpSynthDevice(setIsLoaded);
-    dispatch({
-      type: "UPDATE_EMITTER_AUDIO_NODES",
-      name: name,
-      synth: synth_d,
-      panner: panner3D_d,
-    });
+    const [synth_d, panner_d] = setUpSynthDevice(setIsLoaded);
+    updateEmitterAudioNodes({ name: name, synth: synth_d, panner: panner_d });
   }, []);
-  React.useEffect(() => {
-    if (isLoaded) {
-      callback(synth, panner3D, position);
-    }
-  }, [synth, panner3D]);
   React.useEffect(() => {
     if (isLoaded) {
       onPositionChange(position);
@@ -68,14 +65,13 @@ function SoundEmitter({
       const signals = smoothed_z_score(
         events.map((el, i) => el.y),
         {
-          lag: 15,
-          threshold: 2.0,
+          lag: 5,
+          threshold: 3.5,
         }
       );
-      dispatch({
-        type: "EMITTER_SIGNAL_DATA",
+      emitterSignalData({
         name: name,
-        signal_data: signals.map((el, i) => el / 3 + 0.5),
+        signal_data: signals.map((el) => el / 3 + 0.5),
       });
       const ev = events.filter((v, i, a) => signals[i] !== 0);
       const em = new Part(
@@ -89,17 +85,14 @@ function SoundEmitter({
       );
       em.start(0);
       if (ev[ev.length - 1].x / 10 > max_length) {
-        dispatch({
-          type: "UPDATE_MAX_LENGTH",
-          max_length: ev[ev.length - 1].x / 10,
-        });
+        updateMaxLength({ max_length: ev[ev.length - 1].x / 10 });
       }
     }
   }, [events, isLoaded]);
 
   function onControlledDrag(e, data) {
     const { x, y, node } = data;
-    dispatch({ type: "UPDATE_EMITTER_POS", name: name, position: { x, y } });
+    updateEmitterPos({ name: name, position: { x, y } });
   }
 
   if (enabled) {
@@ -128,7 +121,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     enabled: emitterIdentity(state.emitters, ownProps.name).enabled,
     synth: emitterIdentity(state.emitters, ownProps.name).synth,
-    panner3D: emitterIdentity(state.emitters, ownProps.name).panner,
+    panner: emitterIdentity(state.emitters, ownProps.name).panner,
     position: emitterIdentity(state.emitters, ownProps.name).position,
     id: emitterIdentity(state.emitters, ownProps.name).id,
     events: emitterIdentity(state.emitters, ownProps.name).data,
@@ -136,4 +129,11 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(SoundEmitter);
+const mapDispatch = {
+  updateEmitterPos,
+  updateEmitterAudioNodes,
+  emitterSignalData,
+  updateMaxLength,
+};
+
+export default connect(mapStateToProps, mapDispatch)(SoundEmitter);

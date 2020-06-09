@@ -29,6 +29,7 @@ import { Transport } from "tone";
 import { LineChart, Brush, XAxis } from "recharts";
 
 import demoData from "./assets/demoData";
+import { emitterData } from "./reducers/emitters";
 
 const useStyles = makeStyles((theme) => ({
   container_max: { width: "100%", height: "100%" },
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   controlFab: { position: "relative", margin: "0 5px" },
 }));
 
-function App({ dispatch }) {
+function App({ emitterData }) {
   const classes = useStyles();
   const containerRef = React.useRef();
   const [data, setData] = React.useState([]);
@@ -46,7 +47,7 @@ function App({ dispatch }) {
   React.useEffect(() => {
     Transport.clear();
     for (var i = 0; i < data.length; i++) {
-      dispatch({ type: "EMITTER_DATA", name: `Channel ${i}`, data: data[i] });
+      emitterData({ name: `Channel ${i}`, data: data[i] });
     }
   }, [data]);
   function handleFDClose() {
@@ -117,7 +118,7 @@ function App({ dispatch }) {
                 <div style={{ minHeight: "50px" }} />
               </DialogContent>
             </Dialog>
-            {data ? (
+            {data.length > 0 ? (
               <AutoSizer disableHeight style={{ position: "sticky" }}>
                 {({ width }) => (
                   <LineChart
@@ -126,13 +127,13 @@ function App({ dispatch }) {
                     data={data[0]}
                     syncId="anyId"
                   >
-                    <Brush />
+                    <Brush dataKey="x" />
                     <XAxis dataKey="x" />
                   </LineChart>
                 )}
               </AutoSizer>
             ) : null}
-            {data
+            {data.length > 0
               ? data.map((d, i) => (
                   <ChannelControl key={i} name={`Channel ${i}`} />
                 ))
@@ -145,4 +146,8 @@ function App({ dispatch }) {
   );
 }
 
-export default connect()(App);
+const mapDispatchToProps = {
+  emitterData,
+};
+
+export default connect(null, mapDispatchToProps)(App);

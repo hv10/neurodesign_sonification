@@ -1,7 +1,7 @@
 function filter(ems, name) {
-  const em = ems.filter((v, i, arr) => v.name === name);
-  if (em.length > 0) {
-    return em[0];
+  const em = ems.find((v) => v.name === name);
+  if (em) {
+    return em;
   } else {
     return {};
   }

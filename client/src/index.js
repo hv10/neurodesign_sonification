@@ -10,16 +10,24 @@ import { createMuiTheme } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
+import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
+import storage from "redux-persist/lib/storage";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { configureStore } from "@reduxjs/toolkit";
+import emitters from "./reducers/emitters"; // defaults to localStorage for web
+import transport from "./reducers/transport";
+import thunk from "redux-thunk";
 
 const persistConfig = {
   key: "root",
   storage,
+  stateReconciler: autoMergeLevel2,
 };
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-const store = createStore(persistedReducer);
-const persistor = persistStore(store);
+const store = configureStore({
+  reducer: { emitters, transport },
+  middleware: [thunk],
+});
 
 let theme = createMuiTheme({
   palette: {
@@ -133,11 +141,9 @@ theme = {
 
 ReactDOM.render(
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </PersistGate>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </Provider>,
   document.getElementById("root")
 );
