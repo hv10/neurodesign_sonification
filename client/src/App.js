@@ -1,32 +1,24 @@
 import React from "react";
-import logo from "./logo.svg";
 import { connect } from "react-redux";
 import "./App.css";
 import "../node_modules/react-vis/dist/style.css";
-import { XYPlot, LineSeries } from "react-vis";
 //import openSocket from 'socket.io-client';
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
-import Fab from "@material-ui/core/Fab";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import StopIcon from "@material-ui/icons/Stop";
-import PauseIcon from "@material-ui/icons/Pause";
 import CSVReader from "react-csv-reader";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import { AutoSizer } from "react-virtualized";
 
 import BottomAppBar from "./components/BottomAppBar";
 import AudioField from "./components/AudioField";
 import ChannelControl from "./components/ChannelControl";
 import TransportControls from "./components/TransportControls";
 import { Transport } from "tone";
-import { LineChart, Brush, XAxis } from "recharts";
+import { ResponsiveContainer, LineChart, Brush, XAxis } from "recharts";
 
 import demoData from "./assets/demoData";
 import { emitterData } from "./reducers/emitters";
@@ -119,19 +111,16 @@ function App({ emitterData }) {
               </DialogContent>
             </Dialog>
             {data.length > 0 ? (
-              <AutoSizer disableHeight style={{ position: "sticky" }}>
-                {({ width }) => (
-                  <LineChart
-                    width={width}
-                    height={50}
-                    data={data[0]}
-                    syncId="anyId"
-                  >
-                    <Brush dataKey="x" />
-                    <XAxis dataKey="x" />
-                  </LineChart>
-                )}
-              </AutoSizer>
+              <ResponsiveContainer
+                width="100%"
+                height={50}
+                style={{ position: "sticky" }}
+              >
+                <LineChart data={data[0]} syncId="anyId">
+                  <Brush dataKey="x" />
+                  <XAxis dataKey="x" />
+                </LineChart>
+              </ResponsiveContainer>
             ) : null}
             {data.length > 0
               ? data.map((d, i) => (

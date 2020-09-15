@@ -87,6 +87,7 @@ function AudioField({
   function panic() {
     for (var i = 0; i < sources.length; i++) {
       sources[i].synth.oscillator.stop();
+      sources[i].synth.triggerRelease();
     }
   }
 
