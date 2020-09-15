@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="250ffdfa-6e18-4929-80e5-5d3cf21cfdd2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/EEG_3CH.csv" beforeDir="false" afterPath="$PROJECT_DIR$/EEG_3CH.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bitalino_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/bitalino_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/client/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.storybook/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/.storybook/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/client/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/logo192.png" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/logo192.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/logo512.png" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/logo512.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/robots.txt" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/robots.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/actions/emitterIdentityFilter.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/actions/emitterIdentityFilter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/assets/demoData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/assets/demoData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/assets/images/brain-overview.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/assets/images/brain-overview.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AudioField.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AudioField.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/BottomAppBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/BottomAppBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/ChannelControl.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/ChannelControl.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/SoundEmitter.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/SoundEmitter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/SoundReceiver.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/SoundReceiver.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/TransportControls.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/TransportControls.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/ZoomAndBrush.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/ZoomAndBrush.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/logo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/logo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/reducers/emitters.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/reducers/emitters.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/reducers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/reducers/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/reducers/transport.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/reducers/transport.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/serviceWorker.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/serviceWorker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/setupTests.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/setupTests.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/smoothedzscore.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/smoothedzscore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/stories/0-Welcome.stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/stories/0-Welcome.stories.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/stories/1-Button.stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/stories/1-Button.stories.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/stories/2-SoundEmitter.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/stories/2-SoundEmitter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/stories/2-SoundEmitter.stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/stories/2-SoundEmitter.stories.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/stories/3-SoundReceiver.stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/stories/3-SoundReceiver.stories.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/stories/4-AudioField.stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/stories/4-AudioField.stories.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/stories/ChannelControl.stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/stories/ChannelControl.stories.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/client/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/asset-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/docs/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/logo192.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/logo192.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/logo512.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/logo512.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/precache-manifest.60b14e4eafd80c64971c1e886852651d.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/precache-manifest.60b14e4eafd80c64971c1e886852651d.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/robots.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/robots.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/service-worker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/static/css/2.5a2f7233.chunk.css" beforeDir="false" afterPath="$PROJECT_DIR$/docs/static/css/2.5a2f7233.chunk.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/static/css/2.5a2f7233.chunk.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/docs/static/css/2.5a2f7233.chunk.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/static/css/main.42222c07.chunk.css" beforeDir="false" afterPath="$PROJECT_DIR$/docs/static/css/main.42222c07.chunk.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/static/css/main.42222c07.chunk.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/docs/static/css/main.42222c07.chunk.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/static/js/2.c8bbeff4.chunk.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/static/js/2.c8bbeff4.chunk.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/static/js/2.c8bbeff4.chunk.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/static/js/2.c8bbeff4.chunk.js.LICENSE.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/static/js/2.c8bbeff4.chunk.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/docs/static/js/2.c8bbeff4.chunk.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/static/js/main.4a746bfc.chunk.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/static/js/main.4a746bfc.chunk.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/static/js/main.4a746bfc.chunk.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/docs/static/js/main.4a746bfc.chunk.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/static/js/runtime-main.075af109.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/static/js/runtime-main.075af109.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/static/js/runtime-main.075af109.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/docs/static/js/runtime-main.075af109.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/static/media/brain-overview.3b0eb74b.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/docs/static/media/brain-overview.3b0eb74b.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/static/media/logo.5d5d9eef.svg" beforeDir="false" afterPath="$PROJECT_DIR$/docs/static/media/logo.5d5d9eef.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/echo_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/echo_server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/hello_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/hello_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/mock.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/mock.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/print_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/print_server.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="websocket_mode" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1hXdxioeqjPtaFgB2Ak1xTxZV3a" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="250ffdfa-6e18-4929-80e5-5d3cf21cfdd2" name="Default Changelist" comment="" />
+      <created>1600161619021</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600161619021</updated>
+      <workItem from="1600161620079" duration="213000" />
+      <workItem from="1600161845488" duration="58000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="416" y="131" width="1084" height="710" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600161896329">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="416" y="131" width="1084" height="710" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1600161896329" />
+    <state x="967" y="-9" width="941" height="1053" key="DiffContextDialog" timestamp="1600161832906">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="967" y="-9" width="941" height="1053" key="DiffContextDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1600161832906" />
+    <state x="740" y="222" width="426" height="477" key="FileChooserDialogImpl" timestamp="1600161895503">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="740" y="222" width="426" height="477" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1600161895503" />
+    <state x="623" y="237" key="run.anything.popup" timestamp="1600161858878">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="623" y="237" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1600161858878" />
+  </component>
+</project>
