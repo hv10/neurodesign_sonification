@@ -22,6 +22,7 @@ import { ResponsiveContainer, LineChart, Brush, XAxis } from "recharts";
 
 import demoData from "./assets/demoData";
 import { emitterData } from "./reducers/emitters";
+import * as Tone from "tone";
 
 const useStyles = makeStyles((theme) => ({
   container_max: { width: "100%", height: "100%" },
@@ -118,7 +119,10 @@ function App({ emitterData }) {
               >
                 <LineChart data={data[0]} syncId="anyId">
                   <Brush dataKey="x" />
-                  <XAxis dataKey="x" />
+                  <XAxis
+                    dataKey="x"
+                    interval={Math.max(data[0].length / 100, 250)}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             ) : null}

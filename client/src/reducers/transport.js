@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const transport = createSlice({
   name: "transport",
-  initialState: { events: [], max_length: 0.01 },
+  initialState: { events: [], max_length: 0.01, audioOffset: 0 },
   reducers: {
     playStateChange(state, action) {
       state.playState = action.payload;
@@ -15,6 +15,12 @@ const transport = createSlice({
     },
     indexReset(state) {
       state.index = 0;
+    },
+    setProgress(state, action) {
+      state.progress = action.payload;
+    },
+    setOffset(state, action) {
+      state.audioOffset = action.payload;
     },
     updateMaxLength(state, action) {
       const { max_length } = action.payload;
@@ -29,5 +35,7 @@ export const {
   playStateChange,
   updateMaxLength,
   addAudioEvent,
+  setProgress,
+  setOffset,
 } = transport.actions;
 export default transport.reducer;

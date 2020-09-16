@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   responsive_img: { width: "100%", height: "auto" },
 }));
 
-const SCALE = 10;
+const SCALE = 15;
 
 function AudioField({
   sources,

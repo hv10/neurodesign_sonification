@@ -1,41 +1,42 @@
-import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import Fab from '@material-ui/core/Fab';
-import Slider from '@material-ui/core/Slider';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import Popover from '@material-ui/core/Popover';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import StopIcon from '@material-ui/icons/Stop';
-import PauseIcon from '@material-ui/icons/Pause';
-import SettingsIcon from '@material-ui/icons/Settings';
-import {Transport} from 'tone';
-import Typography from '@material-ui/core/Typography';
-import {connect} from 'react-redux';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Fab from "@material-ui/core/Fab";
+import Slider from "@material-ui/core/Slider";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@material-ui/core/MenuItem";
+import Popover from "@material-ui/core/Popover";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import StopIcon from "@material-ui/icons/Stop";
+import PauseIcon from "@material-ui/icons/Pause";
+import SettingsIcon from "@material-ui/icons/Settings";
+import { Transport } from "tone";
+import Typography from "@material-ui/core/Typography";
+import { connect } from "react-redux";
+import { setOffset, setProgress } from "../reducers/transport";
+import * as Tone from "tone";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   transportControls: {
-    backgroundColor: '#eee',
+    backgroundColor: "#eee",
     borderRadius: 50,
-    position: 'absolute',
-    alignItems: 'center',
-    maxWidth: '50vw',
+    position: "absolute",
+    alignItems: "center",
+    maxWidth: "50vw",
     bottom: 25,
     left: 100,
   },
-  controlFab: {position: 'relative', margin: '0 5px'},
-  progressBar: {margin: '0 10px'},
-  settingsDialog: {padding: theme.spacing(2), minWidth: 250, width: '30vw'},
+  controlFab: { position: "relative", margin: "0 5px" },
+  progressBar: { margin: "0 10px" },
+  settingsDialog: { padding: theme.spacing(2), minWidth: 250, width: "30vw" },
 }));
 
-function TransportControls({length}) {
+function TransportControls({ length, setProgress, progress, setOffset }) {
   const classes = useStyles();
   const [isPlaying, setIsPlaying] = React.useState(false);
-  const [progress, setProgress] = React.useState(0);
   const [counter, setCounter] = React.useState(false);
   const [settingsAnchor, setSettingsAnchor] = React.useState(null);
   const [tempo, setTempo] = React.useState(1);
@@ -66,14 +67,22 @@ function TransportControls({length}) {
       setIsPlaying(true);
       if (counter === false) {
         var id = Transport.scheduleRepeat(
-          time => {
-            setProgress(Transport.progress);
+          (time) => {
+            Tone.Draw.schedule(() => {
+              setProgress(Transport.progress);
+            }, time);
           },
           0.2,
-          0,
+          0
         );
         setCounter(id);
       }
+      Transport.scheduleOnce((time) => {
+        Tone.Draw.schedule(() => {
+          setOffset(time);
+          console.log("offset:", time);
+        }, time);
+      }, 0);
     }
   }
 
@@ -119,7 +128,8 @@ function TransportControls({length}) {
           color="primary"
           size="large"
           className={classes.controlFab}
-          onClick={togglePlaying}>
+          onClick={togglePlaying}
+        >
           {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
         </Fab>
       </Grid>
@@ -128,7 +138,8 @@ function TransportControls({length}) {
           color="primary"
           size="large"
           className={classes.controlFab}
-          onClick={handleStop}>
+          onClick={handleStop}
+        >
           <StopIcon />
         </Fab>
       </Grid>
@@ -142,10 +153,10 @@ function TransportControls({length}) {
               max={length}
               step={0.1}
               marks={[
-                {value: cLoopPoints[0], label: 'S'},
-                {value: cLoopPoints[1], label: 'E'},
+                { value: cLoopPoints[0], label: "S" },
+                { value: cLoopPoints[1], label: "E" },
               ]}
-              style={{width: '100%'}}
+              style={{ width: "100%" }}
               onChange={(e, v) => {
                 handleJump(v);
               }}
@@ -155,7 +166,7 @@ function TransportControls({length}) {
             <Typography variant="h6" className={classes.progressBar}>
               {currentRelPos(progress, ...cLoopPoints).toFixed(1)}/
               {cLoopPoints[1] !== length
-                ? cLoopPoints[1].toFixed(1) + '(' + length.toFixed(1) + ')'
+                ? cLoopPoints[1].toFixed(1) + "(" + length.toFixed(1) + ")"
                 : length.toFixed(1)}
               s
             </Typography>
@@ -170,33 +181,38 @@ function TransportControls({length}) {
           open={settingsOpen}
           onClose={handleSettingsClose}
           anchorEl={settingsAnchor}
-          PaperProps={{className: classes.settingsDialog}}
+          PaperProps={{ className: classes.settingsDialog }}
           anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
+            vertical: "top",
+            horizontal: "center",
           }}
           transformOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}>
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+        >
           <Grid container direction="column" spacing={3}>
             <Grid item>
-              <FormControl style={{width: '100%'}}>
+              <FormControl style={{ width: "100%" }}>
                 <InputLabel id="tempo-select">Tempo</InputLabel>
                 <Select
                   labelId="tempo-select"
                   value={tempo}
-                  onChange={e => setTempo(e.target.value)}>
+                  onChange={(e) => setTempo(e.target.value)}
+                >
                   <MenuItem value={0.25}>.25x</MenuItem>
                   <MenuItem value={0.5}>.5x</MenuItem>
                   <MenuItem value={1}>1x</MenuItem>
                   <MenuItem value={2}>2x</MenuItem>
                   <MenuItem value={3}>3x</MenuItem>
+                  <MenuItem value={5}>5x</MenuItem>
+                  <MenuItem value={10}>10x</MenuItem>
+                  <MenuItem value={100}>100x</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl style={{width: '100%'}}>
+              <FormControl style={{ width: "100%" }}>
                 <InputLabel id="tempo-select">Loop Points</InputLabel>
                 <Slider
                   labelId="tempo-select"
@@ -219,9 +235,15 @@ function TransportControls({length}) {
   );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     length: state.transport.max_length,
+    progress: state.transport.progress,
   };
 };
-export default connect(mapStateToProps)(TransportControls);
+
+const mapDispatchToProps = {
+  setProgress,
+  setOffset,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TransportControls);

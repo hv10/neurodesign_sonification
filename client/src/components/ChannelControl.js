@@ -17,6 +17,7 @@ import {
   CartesianGrid,
   Tooltip,
   Label,
+  ReferenceLine,
 } from "recharts";
 import Divider from "@material-ui/core/Divider";
 import { addEmitter, toggleEmitterEnabled } from "../reducers/emitters";
@@ -48,6 +49,7 @@ function ChannelControl({
   id,
   addEmitter,
   toggleEmitterEnabled,
+  progress,
 }) {
   const [signalMap, setSignalMap] = React.useState({});
   React.useEffect(() => {
@@ -76,7 +78,16 @@ function ChannelControl({
           <ResponsiveContainer width="100%" aspect={3} minHeight={50}>
             <LineChart data={signalMap} syncId="anyId">
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="x" />
+              <ReferenceLine
+                x={Math.floor(signalMap.length * progress)}
+                stroke="red"
+              >
+                <Label position="insideTopLeft" offset={5} value="▸" />
+              </ReferenceLine>
+              <XAxis
+                dataKey="x"
+                interval={Math.max(signalMap.length / 100, 250)}
+              />
               <YAxis type="number" domain={[0, 1]} />
               <Tooltip />
               <Line
@@ -115,6 +126,7 @@ const mapStateToProps = (state, ownProps) => {
     signal_data:
       emitterIdentity(state.emitters, ownProps.name).signal_data || [],
     data: emitterIdentity(state.emitters, ownProps.name).data || [],
+    progress: state.transport.progress,
   };
 };
 

@@ -5,15 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import Draggable from "react-draggable";
-import {
-  Transport,
-  PolySynth,
-  Synth,
-  Panner3D,
-  Reverb,
-  Part,
-  Master as MasterOut,
-} from "tone";
+import { Synth, Panner3D, Part, Event, Master, Transport, Draw } from "tone";
 import { connect } from "react-redux";
 import emitterIdentity from "../actions/emitterIdentityFilter";
 import smoothed_z_score from "../smoothedzscore";
@@ -24,13 +16,14 @@ import {
   emitterSignalData,
 } from "../reducers/emitters";
 import { updateMaxLength } from "../reducers/transport";
+import * as Tone from "tone";
 
 function setUpSynthDevice(cb) {
   const synth = new Synth();
   const panner3D = new Panner3D();
-  synth.sync();
   panner3D.panningModel = "HRTF";
-  synth.chain(panner3D, MasterOut);
+  synth.chain(panner3D, Master);
+  synth.sync();
   cb(true);
   return [synth, panner3D];
 }
@@ -48,8 +41,10 @@ function SoundEmitter({
   updateEmitterAudioNodes,
   emitterSignalData,
   updateMaxLength,
+  audioOffset,
 }) {
   const [isLoaded, setIsLoaded] = React.useState(false);
+  const [transportEvents, setTransportEvents] = React.useState([]);
   React.useEffect(() => {
     const [synth_d, panner_d] = setUpSynthDevice(setIsLoaded);
     updateEmitterAudioNodes({ name: name, synth: synth_d, panner: panner_d });
@@ -62,11 +57,12 @@ function SoundEmitter({
   React.useEffect(() => {
     if (isLoaded) {
       synth.triggerRelease();
+      transportEvents.forEach((el) => Transport.clear(el));
       const signals = smoothed_z_score(
         events.map((el, i) => el.y),
         {
-          lag: 5,
-          threshold: 3.5,
+          lag: 15,
+          threshold: 2.5,
         }
       );
       emitterSignalData({
@@ -74,21 +70,22 @@ function SoundEmitter({
         signal_data: signals.map((el) => el / 3 + 0.5),
       });
       const ev = events.filter((v, i, a) => signals[i] !== 0);
-      const em = new Part(
-        function (time, value) {
+      ev.forEach((el) => {
+        let em = new Event((time, value) => {
           value = value * 1000 + 250; // maps between 250 and 1250hz
-          synth.triggerAttackRelease(value, 0.5, time);
-        },
-        ev.map((el, i) => {
-          return [el.x / 10, el.y];
-        })
-      );
-      em.start(0);
+          synth.triggerAttackRelease(value, "8n", time - audioOffset);
+          Draw.schedule(() => {
+            console.log(el.x / 10, time - audioOffset);
+          }, time);
+        }, el.y);
+        em.start(el.x / 10);
+        setTransportEvents([...transportEvents, em]);
+      });
       if (ev[ev.length - 1].x / 10 > max_length) {
         updateMaxLength({ max_length: ev[ev.length - 1].x / 10 });
       }
     }
-  }, [events, isLoaded]);
+  }, [events, audioOffset, isLoaded]);
 
   function onControlledDrag(e, data) {
     const { x, y, node } = data;
@@ -126,6 +123,7 @@ const mapStateToProps = (state, ownProps) => {
     id: emitterIdentity(state.emitters, ownProps.name).id,
     events: emitterIdentity(state.emitters, ownProps.name).data,
     max_length: state.transport.max_length,
+    audioOffset: state.transport.audioOffset,
   };
 };
 
