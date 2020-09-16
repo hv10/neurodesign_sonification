@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "/neurodesign_sonification/static/css/main.e0b3607e.chunk.css",
-    "main.js": "/neurodesign_sonification/static/js/main.69593cb1.chunk.js",
-    "main.js.map": "/neurodesign_sonification/static/js/main.69593cb1.chunk.js.map",
+    "main.js": "/neurodesign_sonification/static/js/main.5c185faf.chunk.js",
+    "main.js.map": "/neurodesign_sonification/static/js/main.5c185faf.chunk.js.map",
     "runtime-main.js": "/neurodesign_sonification/static/js/runtime-main.fbed0c6f.js",
     "runtime-main.js.map": "/neurodesign_sonification/static/js/runtime-main.fbed0c6f.js.map",
     "static/css/2.5a2f7233.chunk.css": "/neurodesign_sonification/static/css/2.5a2f7233.chunk.css",
-    "static/js/2.158a1a13.chunk.js": "/neurodesign_sonification/static/js/2.158a1a13.chunk.js",
-    "static/js/2.158a1a13.chunk.js.map": "/neurodesign_sonification/static/js/2.158a1a13.chunk.js.map",
+    "static/js/2.a36f1b0f.chunk.js": "/neurodesign_sonification/static/js/2.a36f1b0f.chunk.js",
+    "static/js/2.a36f1b0f.chunk.js.map": "/neurodesign_sonification/static/js/2.a36f1b0f.chunk.js.map",
     "index.html": "/neurodesign_sonification/index.html",
-    "precache-manifest.a689852be602c3466c0e733af5f68632.js": "/neurodesign_sonification/precache-manifest.a689852be602c3466c0e733af5f68632.js",
+    "precache-manifest.81b8c02dbfbc7fcb6e4d2171ef57dcc7.js": "/neurodesign_sonification/precache-manifest.81b8c02dbfbc7fcb6e4d2171ef57dcc7.js",
     "service-worker.js": "/neurodesign_sonification/service-worker.js",
     "static/css/2.5a2f7233.chunk.css.map": "/neurodesign_sonification/static/css/2.5a2f7233.chunk.css.map",
     "static/css/main.e0b3607e.chunk.css.map": "/neurodesign_sonification/static/css/main.e0b3607e.chunk.css.map",
-    "static/js/2.158a1a13.chunk.js.LICENSE.txt": "/neurodesign_sonification/static/js/2.158a1a13.chunk.js.LICENSE.txt",
+    "static/js/2.a36f1b0f.chunk.js.LICENSE.txt": "/neurodesign_sonification/static/js/2.a36f1b0f.chunk.js.LICENSE.txt",
     "static/media/brain-overview.jpg": "/neurodesign_sonification/static/media/brain-overview.3b0eb74b.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.fbed0c6f.js",
     "static/css/2.5a2f7233.chunk.css",
-    "static/js/2.158a1a13.chunk.js",
+    "static/js/2.a36f1b0f.chunk.js",
     "static/css/main.e0b3607e.chunk.css",
-    "static/js/main.69593cb1.chunk.js"
+    "static/js/main.5c185faf.chunk.js"
   ]
 }
