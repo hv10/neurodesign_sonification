@@ -11,7 +11,7 @@ kiwisolver==1.1.0
 matplotlib==3.1.2
 msgpack==0.6.2
 neovim==0.3.1
-numpy==1.18.1
+numpy==1.22.0
 pandas==1.0.0
 pathspec==0.7.0
 PyBluez==0.23
@@ -44,7 +44,7 @@ kiwisolver==1.1.0
 matplotlib==3.1.2
 msgpack==0.6.2
 neovim==0.3.1
-numpy==1.18.1
+numpy==1.22.0
 pandas==1.0.0
 pathspec==0.7.0
 PyBluez==0.23
